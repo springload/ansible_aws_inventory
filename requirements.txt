@@ -1,0 +1,3 @@
+Beaker
+boto3
+botocore
