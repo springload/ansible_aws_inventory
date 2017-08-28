@@ -80,7 +80,7 @@ def get_all_profiles():
                     )
                     yield child.name, child_session
                 except ClientError as e:
-                    sys.stderr.write("Can't assume role %s (%s) from %s: %s\n" % (arn, child, profile, e))
+                    sys.stderr.write("Can't assume role %s (%s) from %s: %s\n" % (child.arn, child.name, profile, e))
 
 
 # sorts bastions list by size of the most common substring with host

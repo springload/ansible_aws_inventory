@@ -20,7 +20,7 @@ For every profile there are the following groups: "profilename", "profilename+vp
 
 ## How to use
 
-First of all, test the profiles:
+First of all, edit `assume_role.py` and add your crossaccounts, if needed. Then test the profiles:
   ```sh
     ./aws_inventory.py -t
   ```
