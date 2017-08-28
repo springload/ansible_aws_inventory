@@ -21,28 +21,33 @@ For every profile there are the following groups: "profilename", "profilename+vp
 ## How to use
 
 First of all, test the profiles:
-
+  ```sh
     ./aws_inventory.py -t
+  ```
 
 It will show if you have insufficient right to list instances in a profile.
 
 After that just add it to ~/.ansible.cfg:
-
+  ```Ini
     [defaults]
     inventory = ~/projects/ansible_aws_inventory/aws_inventory.py
+  ```
 
 Or generate a ssh config:
-
-    ~/projects/infra/ansible_aws_inventory/aws_inventory.py -c ~/.ssh/aws_config
+  ```sh
+    ~/projects/ansible_aws_inventory/aws_inventory.py -c ~/.ssh/aws_config
+  ```
 
 and add the following to the bottom of your `~/.ssh/config`
-
+  ```Ini
     Include aws_config
+  ```
 
 Add this to your .bashrc:
-
+  ```Ini
     alias reconf="~/projects/ansible_aws_inventory/aws_inventory.py -c ~/.ssh/aws_config --clear"
     alias hosts="grep -P \"^Host.*\" ~/.ssh/aws_config"
+  ```
 
 The first command regenerates ssh config. The second one lists all available hosts.
 
