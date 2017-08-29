@@ -46,7 +46,7 @@ and add the following to the bottom of your `~/.ssh/config`
 Add this to your .bashrc:
   ```Ini
     alias reconf="~/projects/ansible_aws_inventory/aws_inventory.py -c ~/.ssh/aws_config --clear"
-    alias hosts="grep -P \"^Host.*\" ~/.ssh/aws_config"
+    alias hosts="grep ^Host ~/.ssh/aws_config"
   ```
 
 The first command regenerates ssh config. The second one lists all available hosts.
