@@ -1,4 +1,4 @@
-### Ansible AWS dynamic inventory script.
+# Ansible AWS dynamic inventory script.
 
 ## Requirements
 
@@ -107,4 +107,4 @@ To see all available groups:
 
 ## Important
 
-All your team should name aws profiles in `~/.aws/credentials` and `~/.aws/config` identically across all their machines.
+All your team should name AWS profiles in `~/.aws/credentials` and `~/.aws/config` identically across all their machines, see the available [shared configuration](https://github.com/springload/infra/tree/master/aws).
