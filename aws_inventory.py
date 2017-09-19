@@ -123,10 +123,22 @@ def get_objects(ssh=False):
         instances = ec2.instances.filter(
             Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
 
+        bastions = dict(
+            filter(
+                lambda i: "bastion" in i[0], map(
+                    lambda i: (get_name_from_tags(i.tags), i.public_ip_address), (
+                        i for i in instances if any([tag["Key"] == "Global" for tag in i.tags]) # pick only Global tagged bastions
+                    )
+                )
+            )
+        )
         # group by VPC
         for vpc, instances in groupby(sorted(instances, key=lambda s: s.vpc.id), lambda s: s.vpc):
             instances = list(instances)
-            bastions = dict(filter(lambda i: "bastion" in i[0], map(lambda i: (get_name_from_tags(i.tags), i.public_ip_address), instances)))
+            bastions = bastions
+            bastions.update(
+                dict(filter(lambda i: "bastion" in i[0], map(lambda i: (get_name_from_tags(i.tags), i.public_ip_address), instances)))
+            )
 
             vpc_name = get_name_from_tags(vpc.tags)
 

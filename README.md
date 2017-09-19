@@ -13,6 +13,7 @@
     2. For each profile extracts all running instances, groups them by profile name, instance name separated by `-` and VPC name.
     3. It recognises bastion servers! And automatically puts appropriate meta variables, so you don't need to
        hack your ~/.ssh/config in order to connect to bastion-ed instances.
+    3. a. If you want to use one bastion server for all VPC in one account, tag the instance with `Global` == `true`
     4. It can work with federated accounts using AssumeRole! Just look into `assume_role.py` for some predefined values or just use `~/.aws/config` with child accounts.
 
 For every profile there are the following groups: "profilename", "profilename+vpcname" and group based on name, separated by dashes, i.e. for name `child1-nonprod-web-01` there are groups `child1`, `child1-nonprod`, `child1-nonprod-web` and `child1-nonprod-web-01`.
