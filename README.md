@@ -39,7 +39,7 @@ Or generate a ssh config:
     ~/projects/ansible_aws_inventory/aws_inventory.py -c ~/.ssh/aws_config
   ```
 
-and add the following to the bottom of your `~/.ssh/config`
+and add the following to the top of your `~/.ssh/config`
   ```Ini
     Include aws_config
   ```
