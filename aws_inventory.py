@@ -127,7 +127,7 @@ def get_objects(ssh=False):
             filter(
                 lambda i: "bastion" in i[0], map(
                     lambda i: (get_name_from_tags(i.tags), i.public_ip_address), (
-                        i for i in instances if any([tag["Key"] == "Global" for tag in i.tags]) # pick only Global tagged bastions
+                        inst for inst in instances if inst.tags and any([tag["Key"] == "Global" for tag in inst.tags]) # pick only Global tagged bastions
                     )
                 )
             )
