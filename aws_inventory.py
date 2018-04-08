@@ -5,6 +5,7 @@ import boto3
 import botocore
 import json
 import os
+import re
 import sys
 import tempfile
 
@@ -92,8 +93,9 @@ def bastion_matcher(bastions, host):
 def get_name_from_tags(tags, lower=True):
     if tags:
         name_tag = list(filter(lambda s: s["Key"] == "Name", tags))
-        name = name_tag[0]["Value"] if name_tag else ""
-        return name.lower() if lower else name
+        name = name_tag[0]["Value"]if name_tag else ""
+        name = name.lower() if lower else name
+        return re.sub("[\s-]+", "-", name) # sanitise the name
     else:
         return ""
 
@@ -133,14 +135,14 @@ def get_objects(ssh=False):
             )
         )
         # group by VPC
-        for vpc, instances in groupby(sorted(instances, key=lambda s: s.vpc.id), lambda s: s.vpc):
+        for vpc, instances in groupby(sorted(instances, key=lambda s: s.vpc.id if s.vpc else ""), lambda s: s.vpc):
             instances = list(instances)
             bastions = bastions
             bastions.update(
                 dict(filter(lambda i: "bastion" in i[0], map(lambda i: (get_name_from_tags(i.tags), i.public_ip_address), instances)))
             )
 
-            vpc_name = get_name_from_tags(vpc.tags)
+            vpc_name = get_name_from_tags(vpc.tags if vpc else "")
 
             for instance in sorted(instances, key=lambda s: s.launch_time):
                 name = get_name_from_tags(instance.tags)
