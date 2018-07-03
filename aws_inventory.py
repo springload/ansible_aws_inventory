@@ -211,13 +211,10 @@ def ssh_config(output):
             yield ("\n".join(map(lambda s: "    {0}".format(s), objects[host])))
             yield ""
     if output:
-        tmpfile = tempfile.mkstemp()[1]
-        try:
-            with open(tmpfile, "w") as f:
-                f.write("\n".join(config()))
-            os.rename(tmpfile, output)
-        except:
-            os.remove(tmpfile)
+        config = "\n".join(config())
+
+        with open(output, "w") as f:
+            f.write(config)
     else:
         print("\n".join(config()))
 
