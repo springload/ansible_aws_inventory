@@ -202,28 +202,27 @@ def test_profiles():
             print("FAIL in '%s' profile: %s" % (profile, e))
 
 
-def ssh_config(output):
+def ssh_config(output, extra_options=[]):
     objects = get_objects(ssh=True)["_ssh_config"]
 
     def config():
         for host in sorted(objects.keys()):
             yield ("Host %s" % host)
-            yield ("\n".join(map(lambda s: "    {0}".format(s), objects[host])))
+            yield ("\n".join(map(lambda s: "    {0}".format(s), objects[host] + extra_options)))
             yield ""
+
     if output:
-        tmpfile = tempfile.mkstemp()[1]
-        try:
-            with open(tmpfile, "w") as f:
-                f.write("\n".join(config()))
-            os.rename(tmpfile, output)
-        except:
-            os.remove(tmpfile)
+        config = "\n".join(config())
+
+        with open(output, "w") as f:
+            f.write(config)
     else:
         print("\n".join(config()))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="AWS Inventory script. Can be used as an Ansible inventory, or it can generate ssh config")
     parser.add_argument("--clear", action="store_true", help="Clear cache")
+    parser.add_argument("-x", "--ssh-config-x-option", action="append", default=[], metavar="option", help="Add extra option to each Host in the ssh config")
     actions = parser.add_mutually_exclusive_group()
     actions.add_argument("-l", "--list", action="store_true", help="Used by Ansible. Generates inventory in json format and outputs to stdout.")
     actions.add_argument("-t", "--test", action="store_true", help="Test AWS profiles. Connects to all profiles and tries to get instances.")
@@ -238,4 +237,4 @@ if __name__ == "__main__":
     elif args.list:
         inventory()
     else:
-        ssh_config(args.ssh_config)
+        ssh_config(args.ssh_config, args.ssh_config_x_option)
