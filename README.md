@@ -1,5 +1,8 @@
 ### Ansible AWS dynamic inventory script.
 
+## Note
+This has been deprecated and no longer maintained, in future refer to https://github.com/springload/aws-ssh
+
 ## Requirements
 
     1. Install python3
