@@ -49,11 +49,21 @@ and add the following to the top of your `~/.ssh/config`
 
 Add this to your .bashrc:
   ```Ini
-    alias reconf="~/projects/ansible_aws_inventory/aws_inventory.py -c ~/.ssh/aws_config --clear"
+    alias reconf="cd /<full-path-to>/ansible_aws_inventory/ && ./reconf.sh"
     alias hosts="grep ^Host ~/.ssh/aws_config"
   ```
 
 The first command regenerates ssh config. The second one lists all available hosts.
+
+To refresh ssh config automatically you shall create a cron entry in `/etc/cron.d/aws_reconf`
+```bash
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=""
+
+# m h dom mon dow user	command
+51 9 * * * root su <your_user> -c "cd /<full-path-to>/ansible_aws_inventory/ && ./reconf.sh"
+``` 
 
 Enjoy!
 
